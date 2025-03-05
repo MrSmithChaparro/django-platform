@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    networks:
+      - backend-network
+
+  db:
+    image: mysql:9.0
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: db_platform
+    ports:
+      - "3306:3306"
+    networks:
+      - backend-network
+
+networks:
+  backend-network:
+    driver: bridge
